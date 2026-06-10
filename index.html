@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#0d0d2b">
+  <title>⚔️ Pokemon Battle</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cousine:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="public/css/style.css">
+</head>
+
+<body>
+
+  <!-- ══ SELECT SCREEN ══ -->
+  <div id="select-screen" class="screen active">
+    <div class="stars" id="stars"></div>
+    <div class="sel-title">⚔️ POKEMON BATTLE</div>
+    <div class="sel-sub">Chọn Pokemon đồng hành!</div>
+    <div class="stage-bar" id="sel-stage-bar">
+      <div class="stage-label" id="sel-stage-label">Cửa Ải 1 / 30</div>
+      <div class="stage-track">
+        <div class="stage-fill" id="sel-stage-fill" style="width:0%"></div>
+      </div>
+    </div>
+    <div class="poke-grid-header">
+      <span class="poke-grid-label">Chọn Pokemon</span>
+      <div class="poke-grid-actions">
+        <button class="reset-btn" id="reset-btn" title="Reset tiến trình"><img src="public/images/reset1.png" alt="" class="reset-btn-img"></button>
+        <button class="type-chart-btn" id="type-chart-btn" title="Bảng hệ">?</button>
+      </div>
+    </div>
+    <div class="poke-grid" id="poke-grid"></div>
+    <button class="start-btn" id="start-btn" disabled>⚔️ BẮT ĐẦU!</button>
+    <button class="start-btn" id="map-btn"
+      style="margin-top:8px;background:#2A75BB;color:#fff;box-shadow:0 5px 0 #1a3a80;animation:none">🗺️ BẢN ĐỒ</button>
+  </div>
+
+  <!-- ══ MAP SCREEN ══ -->
+  <div id="map-screen" class="screen">
+    <div class="stars"></div>
+    <div class="map-title">🗺️ BẢN ĐỒ CỬA ẢI</div>
+    <div class="map-sub" id="map-sub">Chọn cửa để xem chi tiết</div>
+    <div class="map-grid" id="map-grid"></div>
+    <button class="map-play-btn" id="map-play-btn">⚔️ TIẾP TỤC</button>
+    <button class="map-sel-btn" id="map-sel-btn">← Đổi Pokemon</button>
+  </div>
+
+  <!-- ══ BATTLE SCREEN ══ -->
+  <div id="battle-screen" class="screen">
+    <div class="battle-field" id="battle-field">
+      <div class="stage-badge" id="stage-badge">Cửa 1/30</div>
+          <button class="battle-back-btn" id="battle-back-btn">← Home</button>
+      <!-- clouds -->
+      <div class="cloud" style="width:70px;height:20px;top:9%;left:-10%;--sp:22s;opacity:.7">
+        <div
+          style="position:absolute;width:32px;height:32px;top:-16px;left:8px;background:rgba(255,255,255,.8);border-radius:50%">
+        </div>
+        <div
+          style="position:absolute;width:22px;height:22px;top:-11px;left:32px;background:rgba(255,255,255,.8);border-radius:50%">
+        </div>
+      </div>
+      <div class="cloud" style="width:50px;height:14px;top:20%;left:-10%;--sp:30s;animation-delay:-12s;opacity:.5">
+        <div
+          style="position:absolute;width:24px;height:24px;top:-12px;left:6px;background:rgba(255,255,255,.8);border-radius:50%">
+        </div>
+      </div>
+      <!-- player HP -->
+      <div class="hp-panel player" id="p-hp-panel">
+        <div class="hp-name"><span id="p-name">PLAYER</span><span class="hp-lv" id="p-lv">Lv.35</span></div>
+        <div class="hp-track">
+          <div class="hp-bar" id="p-hp-bar"></div>
+        </div>
+        <div class="hp-num" id="p-hp-num">100/100</div>
+      </div>
+      <!-- enemy HP -->
+      <div class="hp-panel enemy" id="e-hp-panel">
+        <div class="hp-name"><span id="e-name">ENEMY</span><span class="hp-lv" id="e-lv">Lv.1</span></div>
+        <div class="hp-track">
+          <div class="hp-bar" id="e-hp-bar"></div>
+        </div>
+        <div class="hp-num" id="e-hp-num">90/90</div>
+      </div>
+      <!-- sprites -->
+      <div class="poke-spr enemy" id="e-spr">🐉</div>
+      <div class="poke-spr player" id="p-spr">⚡</div>
+      <!-- fx -->
+      <div class="skill-fx" id="skill-fx"></div>
+      <!-- result -->
+      <div class="result-ov" id="result-ov">
+        <div class="res-txt" id="res-txt">YOU WIN!</div>
+        <div class="stage-clear" id="stage-clear-txt"></div>
+        <div class="res-sub" id="res-sub">Xuất sắc!</div>
+        <div class="res-btns">
+          <button class="res-btn next" id="next-btn">▶ TIẾP TỤC</button>
+          <button class="res-btn retry" id="retry-btn">🔄 THỬ LẠI</button>
+          <button class="res-btn sel" id="back-sel-btn">🎮 QUAY VỀ HOME</button>
+        </div>
+      </div>
+    </div>
+    <!-- UI -->
+    <div class="battle-ui">
+      <div class="msg-box"><span id="msg-txt">Chọn skill!</span><span class="msg-cur"></span></div>
+      <div class="skills-grid" id="skills-grid"></div>
+    </div>
+  </div>
+
+  <!-- ══ WIN ALL SCREEN ══ -->
+  <div id="win-screen" class="screen">
+    <div class="win-trophy">🏆</div>
+    <div class="win-title">CHÚC MỪNG!<br>BẠN ĐÃ CHINH PHỤC<br>30 CỬA ẢI!</div>
+    <div class="win-sub">Bạn thực sự là<br>Pokemon Master! 🌟</div>
+    <button class="win-restart" id="win-restart">🔄 CHƠI LẠI TỪ ĐẦU</button>
+  </div>
+  <!-- ══ RESET CONFIRM MODAL ══ -->
+  <div id="reset-modal" class="type-modal-bg">
+    <div class="type-modal reset-modal">
+      <div class="type-modal-title">🔄 RESET TIẾN TRÌNH</div>
+      <div class="reset-modal-body">
+        <div class="reset-modal-icon">⚠️</div>
+        <div class="reset-modal-msg">Bạn có muốn reset tất cả?<br><span class="reset-modal-sub">Toàn bộ cửa ải đã qua sẽ bị xóa!</span></div>
+      </div>
+      <div class="reset-modal-btns">
+        <button class="reset-confirm-btn" id="reset-confirm-btn">Xác nhận</button>
+        <button class="reset-cancel-btn" id="reset-cancel-btn">✕ Huỷ</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ TYPE CHART MODAL ══ -->
+  <div id="type-modal" class="type-modal-bg">
+    <div class="type-modal">
+      <div class="type-modal-title">⚔️ BẢNG HỆ POKEMON</div>
+      <div class="type-modal-tabs" id="type-modal-tabs"></div>
+      <div class="type-modal-body" id="type-modal-body"></div>
+      <button class="type-modal-close" id="type-modal-close">✕ Đóng</button>
+    </div>
+  </div>
+
+  <script src="public/js/script.js"></script>
+</body>
+
+</html>
